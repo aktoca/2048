@@ -31,22 +31,29 @@ function Square() {
 
         }
 
+        this.move = function(keyPressed) {
+
+            if (keyPressed == 37) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
+            else if (keyPressed == 38) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
+            else if (keyPressed == 39) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
+            else if (keyPressed == 40) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
+
+        }
+
     }
 
+
+function massMove(event) {
+
+    if (event.keyCode >= 37 && event.keyCode <= 40){
+            squares.forEach(function(square){square.move(event.keyCode)})
+    }
+}
 
 
 $(function(){
 
-    $(document).on('keydown', function(event){
-
-
-
-        console.log(event.keyCode)
-
-
-
-    })
-
+    $(document).on('keydown', massMove)
 
 
     square = new Square()
