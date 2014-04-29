@@ -33,10 +33,31 @@ function Square() {
 
         this.move = function(keyPressed) {
 
-            if (keyPressed == 37) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
-            else if (keyPressed == 38) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
-            else if (keyPressed == 39) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
-            else if (keyPressed == 40) {console.log(this.x+"|"+this.y+"|"+keyPressed)}
+            if (keyPressed == 37) {
+
+                this.y = Math.max( this.y - 3, 1);
+
+                console.log(this.x+"|"+this.y+"|"+keyPressed)
+
+            }
+            else if (keyPressed == 38) {
+                
+                this.x = Math.max( this.x - 3, 1);
+                console.log(this.x+"|"+this.y+"|"+keyPressed)
+
+            }
+            else if (keyPressed == 39) {
+
+                this.y = Math.min( this.y + 3, 4);
+
+                console.log(this.x+"|"+this.y+"|"+keyPressed)
+            }
+            else if (keyPressed == 40) {
+
+                this.x = Math.min( this.x + 3, 4);
+                console.log(this.x+"|"+this.y+"|"+keyPressed)
+
+            }
 
         }
 
