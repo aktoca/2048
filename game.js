@@ -1,15 +1,15 @@
 
+var squares = [];
 
 function Square() {
 
         this.value = 2
-        this.x = "1"
-        this.y = "1"
+        this.x
+        this.y
 
         var id
 
         this.randLocation = function() {
-
 
             while(true) {
                 this.x = Math.ceil(Math.random()*4)
@@ -35,16 +35,30 @@ function Square() {
 
 
 
-    $(function(){
-    
+$(function(){
+
+    $(document).on('keydown', function(event){
+
+
+
+        console.log(event.keyCode)
+
+
+
+    })
+
+
+
     square = new Square()
+    squares.push(square)
     square.randLocation()
     square.render()
 
     square2 = new Square()
+    squares.push(square2)
     square2.randLocation()
     square2.render()
 
-    })
+})
 
 
