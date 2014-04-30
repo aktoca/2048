@@ -1,5 +1,6 @@
 
 var squares = [];
+var children = [];
 
 function Square() {
 
@@ -52,27 +53,44 @@ function Square() {
 
             if (keyPressed == 37) {                 // left
 
-                this.y = Math.max( this.y - 3, 1);
+                var parentsToLeft = $('.square_container').filter(function(){return $(this).attr('id')[0] == current_x && $(this).attr('id')[1] < current_y && $(this).children().length > 0})
 
-                console.log(this.x+"|"+this.y+"|"+keyPressed)
+                var parentsYCoordinates = [0];
 
+                parentsToLeft.each(function(){
+
+                    parentsYCoordinates.push($(this).attr('id')[1])
+
+                })
+
+                this.y = Math.max.apply(Math,parentsYCoordinates) + 1
+
+            
             }
             else if (keyPressed == 38) {            // up
                 
                 this.x = Math.max( this.x - 3, 1);
-                console.log(this.x+"|"+this.y+"|"+keyPressed)
 
             }
             else if (keyPressed == 39) {            // right
 
-                this.y = Math.min( this.y + 3, 4);
+                var parentsToRight = $('.square_container').filter(function(){return $(this).attr('id')[0] == current_x && $(this).attr('id')[1] > current_y && $(this).children().length > 0})
 
-                console.log(this.x+"|"+this.y+"|"+keyPressed)
+                var parentsYCoordinates = [5];
+
+
+                parentsToRight.each(function(){
+
+                    parentsYCoordinates.push($(this).attr('id')[1])
+
+                })
+
+                this.y = Math.min.apply(Math,parentsYCoordinates) - 1
+
             }
             else if (keyPressed == 40) {            // down
 
                 this.x = Math.min( this.x + 3, 4);
-                console.log(this.x+"|"+this.y+"|"+keyPressed)
 
             }
 
@@ -86,7 +104,42 @@ function Square() {
 function massMove(event) {
 
     if (event.keyCode >= 37 && event.keyCode <= 40){
-            squares.forEach(function(square){square.move(event.keyCode)})
+            
+        if (event.keyCode == 37) {
+
+            for(var co_x=1;co_x<=4;co_x++){
+
+                for(var co_y=1;co_y<=4;co_y++){
+
+                        var object = squares.filter(function(square){return square.x == co_x && square.y == co_y})
+
+                        if (object != 0) {children.push(object)}
+
+                }
+
+            }
+
+        }
+        
+        else if (event.keyCode == 39) {
+
+            for(var co_x=1;co_x<=4;co_x++){
+
+                for(var co_y=4;co_y>=1;co_y--){
+
+                        var object = squares.filter(function(square){return square.x == co_x && square.y == co_y})
+
+                        if (object != 0) {children.push(object)}
+
+                }
+
+            }
+
+        }
+
+        children.forEach(function(square){square[0].move(event.keyCode)})
+
+
     }
 }
 
