@@ -31,7 +31,24 @@ function Square() {
 
         }
 
+        this.moveRender = function(current_x,current_y) {
+
+            var current_parent_id = current_x+""+current_y
+
+            id = this.x+""+this.y
+
+            var _this = $('.square_container').filter(function(){return $(this).attr('id') == current_parent_id}).children()
+
+            var anotherParent = $('.square_container').filter(function(){return $(this).attr('id') == id})
+
+            _this.appendTo(anotherParent)   
+
+        }
+
         this.move = function(keyPressed) {
+
+            var current_x = this.x
+            var current_y = this.y
 
             if (keyPressed == 37) {
 
@@ -58,6 +75,8 @@ function Square() {
                 console.log(this.x+"|"+this.y+"|"+keyPressed)
 
             }
+
+            this.moveRender(current_x,current_y)
 
         }
 
