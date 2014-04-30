@@ -50,26 +50,26 @@ function Square() {
             var current_x = this.x
             var current_y = this.y
 
-            if (keyPressed == 37) {
+            if (keyPressed == 37) {                 // left
 
                 this.y = Math.max( this.y - 3, 1);
 
                 console.log(this.x+"|"+this.y+"|"+keyPressed)
 
             }
-            else if (keyPressed == 38) {
+            else if (keyPressed == 38) {            // up
                 
                 this.x = Math.max( this.x - 3, 1);
                 console.log(this.x+"|"+this.y+"|"+keyPressed)
 
             }
-            else if (keyPressed == 39) {
+            else if (keyPressed == 39) {            // right
 
                 this.y = Math.min( this.y + 3, 4);
 
                 console.log(this.x+"|"+this.y+"|"+keyPressed)
             }
-            else if (keyPressed == 40) {
+            else if (keyPressed == 40) {            // down
 
                 this.x = Math.min( this.x + 3, 4);
                 console.log(this.x+"|"+this.y+"|"+keyPressed)
