@@ -62,7 +62,12 @@ function Square() {
 
         })
 
-        this.y = Math.max.apply(Math,parentsYCoordinates) + 1
+        var maxLeftParentY = Math.max.apply(Math,parentsYCoordinates)
+
+        this.y = maxLeftParentY + 1
+
+        var obstacle = squares.filter(function(square){return square.x == current_x && square.y == maxLeftParentY})
+
 
       }
 
@@ -80,8 +85,11 @@ function Square() {
 
         })
 
-        this.y = Math.min.apply(Math,parentsYCoordinates) - 1
+        var maxRightParentY = Math.min.apply(Math,parentsYCoordinates)
 
+        this.y = maxRightParentY - 1
+
+        var obstacle = squares.filter(function(square){return square.x == current_x && square.y == maxRightParentY})
 
       }
 
