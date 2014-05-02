@@ -1,5 +1,4 @@
 var squares = [];
-:w
 var children = [];
 
 function Square() {
@@ -84,127 +83,127 @@ function Square() {
         this.y = Math.min.apply(Math,parentsYCoordinates) - 1
 
 
-          }
-
-          this.moveRender(current_x,current_y)
-
       }
+
+    this.moveRender(current_x,current_y)
+
+  }
+
+
+  this.moveUpDown = function(move) { 
+    if (move == 0){return} //if row doesn't need to move -get out! 
+    var old_x = this.x
+    var old_y = this.y
+    var newX = (old_x + move);
+
+    // if the nth most cell is empty move there else try the next cell until self
+    if ($('#'+newX+""+old_y).is(':empty')){  
+      this.x = newX 
+      this.moveRender(old_x,old_y)
+    } else {
+      // moving down 
+      if (move > 0 ){ 
+        nextMove = move -1; 
+      //moving up
+      } else {               
+        nextMove = move +1;
+      }
+      this.moveUpDown(nextMove);
+    }
+  }
   
+  
+}
 
-    this.moveUpDown = function(move) { 
-      if (move == 0){return} //if row doesn't need to move -get out! 
-      var old_x = this.x
-        var old_y = this.y
-        var newX = (old_x + move);
 
-      // if the nth most cell is empty move there else try the next cell until self
-      if ($('#'+newX+""+old_y).is(':empty')){  
-        this.x = newX 
-          this.moveRender(old_x,old_y)
-      } else {
-        // moving down 
-        if (move > 0 ){ 
-          nextMove = move -1; 
-          //moving up
-        } else {               
-          nextMove = move +1;
+
+
+
+function massMove(event) {
+
+  if (event.keyCode == 37 || event.keyCode == 39){
+
+    if (event.keyCode == 37) {
+
+      for(var co_x=1;co_x<=4;co_x++){
+
+        for(var co_y=1;co_y<=4;co_y++){
+
+          var object = squares.filter(function(square){return square.x == co_x && square.y == co_y})
+
+            if (object != 0) {children.push(object)}
+
         }
-        this.moveUpDown(nextMove);
+
       }
 
     }
+
+    else if (event.keyCode == 39) {
+
+      for(var co_x=1;co_x<=4;co_x++){
+
+        for(var co_y=4;co_y>=1;co_y--){
+
+          var object = squares.filter(function(square){return square.x == co_x && square.y == co_y})
+
+            if (object != 0) {children.push(object)}
+
+        }
+
+      }
+
+    }
+
+    children.forEach(function(square){square[0].move(event.keyCode)})
   }
 
+  //find all cells  taken by objects per row
+  var one = $.grep(squares, function(e){ return e.x == 1; });
+  var two = $.grep(squares, function(e){ return e.x == 2; });
+  var three = $.grep(squares, function(e){ return e.x == 3; });
+  var four= $.grep(squares, function(e){ return e.x == 4; });
 
-
-
-
-  function massMove(event) {
-
-    if (event.keyCode == 37 || event.keyCode == 39){
-
-      if (event.keyCode == 37) {
-
-        for(var co_x=1;co_x<=4;co_x++){
-
-          for(var co_y=1;co_y<=4;co_y++){
-
-            var object = squares.filter(function(square){return square.x == co_x && square.y == co_y})
-
-              if (object != 0) {children.push(object)}
-
-          }
-
-        }
-
-      }
-
-      else if (event.keyCode == 39) {
-
-        for(var co_x=1;co_x<=4;co_x++){
-
-          for(var co_y=4;co_y>=1;co_y--){
-
-            var object = squares.filter(function(square){return square.x == co_x && square.y == co_y})
-
-              if (object != 0) {children.push(object)}
-
-          }
-
-        }
-
-      }
-
-      children.forEach(function(square){square[0].move(event.keyCode)})
-    }
-
-    //find all cells  taken by objects per row
-    var one = $.grep(squares, function(e){ return e.x == 1; });
-    var two = $.grep(squares, function(e){ return e.x == 2; });
-    var three = $.grep(squares, function(e){ return e.x == 3; });
-    var four= $.grep(squares, function(e){ return e.x == 4; });
-
-    if (event.keyCode == 38){
-      moveRow(two, -1);
-      moveRow(three, -2);
-      moveRow(four, -3);
-    }
-    if (event.keyCode == 40){
-      moveRow(three,1);
-      moveRow(two,2);
-      moveRow(one,3);
-    }
-
-    //takes each cell_container in a row and moves it to the next empty space up/down
-    function moveRow (row, moves){
-      $(row).each(function(i, square_container){ 
-        sq = this
-        sq.moveUpDown(moves)
-      });
-    }
-
+  if (event.keyCode == 38){
+    moveRow(two, -1);
+    moveRow(three, -2);
+    moveRow(four, -3);
+  }
+  if (event.keyCode == 40){
+    moveRow(three,1);
+    moveRow(two,2);
+    moveRow(one,3);
   }
 
+  //takes each cell_container in a row and moves it to the next empty space up/down
+  function moveRow (row, moves){
+    $(row).each(function(i, square_container){ 
+      sq = this
+      sq.moveUpDown(moves)
+    });
+  }
+
+}
 
 
 
 
 
-  $(function(){
 
-    $(document).on('keydown', massMove)
+$(function(){
 
+  $(document).on('keydown', massMove)
 
-    square = new Square()
-    squares.push(square)
-    square.randLocation()
-    square.render()
+  square = new Square()
+  squares.push(square)
+  square.randLocation()
+  square.render()
 
-    square2 = new Square()
-    squares.push(square2)
-    square2.randLocation()
-    square2.render()
+  square2 = new Square()
+  squares.push(square2)
+  square2.randLocation()
+  square2.render()
 
-  })
+})
 
 
