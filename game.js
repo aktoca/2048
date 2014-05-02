@@ -25,7 +25,7 @@ this.render = function() {      // creates the square on the board for the first
 
   id = this.x+""+this.y
 
-  this.$me = $('<div class= "cell_content '+this.value+'">'+this.value+'</div>')
+  this.$me = $('<div class= "cell_content _'+this.value+'">'+this.value+'</div>')
 
   $('.square_container').filter(function(){return $(this).attr('id') == id}).append(this.$me)
 
@@ -116,7 +116,6 @@ this.move = function(keyPressed) {
     }
 
 
-
     this.moveUpDown = function(move) { 
     if (move == 0){return} //if row doesn't need to move -get out! 
       var old_x = this.x
@@ -161,16 +160,15 @@ this.move = function(keyPressed) {
 
       $('.square_container').filter(function(){return $(this).attr('id') == id}).children().eq(0).remove()   // Kill the square DOM on the game board
 
-      console.log( $('.square_container').filter(function(){return $(this).attr('id') == id}))
-
       squares.splice($.inArray(squareToKill,squares),1)
+
+      children.splice($.inArray(squareToKill,Array.prototype.concat.apply([],children)),1)
 
       this.value *= 2
 
-      $('.square_container').filter(function(){return $(this).attr('id') == id}).children().removeClass((this.value/2).toString()).addClass((this.value).toString())  // change the class of this square to the current value
+      $('.square_container').filter(function(){return $(this).attr('id') == id}).children().removeClass("_"+(this.value/2).toString()).addClass("_"+(this.value).toString())  // change the class of this square to the current value
 
       $('.square_container').filter(function(){return $(this).attr('id') == id}).children().text(this.value)  // change the display value to the current value
-
 
       }
 
@@ -219,7 +217,10 @@ function massMove(event) {
 
 }
 
+
+
 children.forEach(function(square){square[0].move(event.keyCode)})
+
 }
 
   //find all cells  taken by objects per row
@@ -244,26 +245,36 @@ children.forEach(function(square){square[0].move(event.keyCode)})
     });
   }
 
+  if (event.keyCode >= 37 && event.keyCode <= 40){ 
+    createSquare(1);
+  }
+
+
 }
 
 
+function createSquare(num) {
 
+
+  for(var i = 1; i <= num; i++) {
+
+    square = new Square()
+    squares.push(square)
+    square.randLocation()
+    square.render()
+
+  }
+
+
+}
 
 
 
 $(function(){
 
-  $(document).on('keydown', massMove)
+  $(document).on('keydown', massMove);
 
-  square = new Square()
-  squares.push(square)
-  square.randLocation()
-  square.render()
-
-  square2 = new Square()
-  squares.push(square2)
-  square2.randLocation()
-  square2.render()
+  createSquare(2);
 
 })
 
