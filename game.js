@@ -159,24 +159,21 @@ function massMove(event) {
   }
 
   //find all cells  taken by objects per row
-  var one = $.grep(squares, function(e){ return e.x == 1; });
-  var two = $.grep(squares, function(e){ return e.x == 2; });
-  var three = $.grep(squares, function(e){ return e.x == 3; });
-  var four= $.grep(squares, function(e){ return e.x == 4; });
 
-  if (event.keyCode == 38){
-    moveRow(two, -1);
-    moveRow(three, -2);
-    moveRow(four, -3);
+  if (event.keyCode == 38){ // arrow up
+    moveRow(2, -1); // move row2 up only once
+    moveRow(3, -2); // move row3 up 2 rows max
+    moveRow(4, -3); // move row4 up 3rows max
   }
-  if (event.keyCode == 40){
-    moveRow(three,1);
-    moveRow(two,2);
-    moveRow(one,3);
+  if (event.keyCode == 40){ // arrow down 
+    moveRow(3, 1); // move down only one row 
+    moveRow(2, 2); // move down upto 2 times
+    moveRow(1, 3); // move dowe upto 3 rows
   }
 
   //takes each cell_container in a row and moves it to the next empty space up/down
-  function moveRow (row, moves){
+  function moveRow (rows, moves){
+    row = $.grep(squares, function(e){ return e.x == rows; });
     $(row).each(function(i, square_container){ 
       sq = this
       sq.moveUpDown(moves)
