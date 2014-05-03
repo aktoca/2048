@@ -43,6 +43,8 @@ function Square() {
 
       _this.appendTo(anotherParent)   
 
+      return
+
   }
 
   this.move = function(keyPressed) {
@@ -91,28 +93,37 @@ function Square() {
 
 
   this.moveUpDown = function(move) { 
-    if (move == 0){return} //if row doesn't need to move -get out! 
     var old_x = this.x
     var old_y = this.y
     var newX = (old_x + move);
 
-    // if the nth most cell is empty move there else try the next cell until self
-    if ($('#'+newX+""+old_y).is(':empty')){  
-      this.x = newX 
-      this.moveRender(old_x,old_y)
+    var nextBlock =  $.grep(squares, function(e){ return e.y == old_y && e.x == newX; })
+    if (nextBlock) {
+       var block  =  nextBlock[0]
     } else {
-      // moving down 
+        block = {}
+    }
+
+    // if the nth most cell is empty or has the same value as 'this' ->  move there 
+    if ($('#'+newX+""+old_y).is(':empty') ||  (checkValue(block) == true)){  
+      this.x = newX 
+        this.moveRender(old_x,old_y);
+      return
+    } else if (move == 0){   //if row doesn't need to move -get out! 
+      return
+    } else {
+      // moving down by subtracking  
       if (move > 0 ){ 
         nextMove = move -1; 
-      //moving up
+        //moving up by adding
       } else {               
         nextMove = move +1;
       }
       this.moveUpDown(nextMove);
     }
   }
-  
-  
+
+
 }
 
 
