@@ -25,7 +25,7 @@ function Square() {
 
     id = this.x+""+this.y
 
-      this.$me = $('<div class= "cell_content"></div>')
+      this.$me = $('<div class= "cell_content _'+this.value+'">'+this.value+'</div>')
 
       $('.square_container').filter(function(){return $(this).attr('id') == id}).append(this.$me)
 
@@ -33,24 +33,29 @@ function Square() {
 
   this.moveRender = function(current_x,current_y) {
 
-    var current_parent_id = current_x+""+current_y
+    var current_parent_id = current_x+""+current_y;
 
-      id = this.x+""+this.y
+    id = this.x+""+this.y;
 
-      var _this = $('.square_container').filter(function(){return $(this).attr('id') == current_parent_id}).children()
+    var _this = $('.square_container').filter(function(){return $(this).attr('id') == current_parent_id}).children();
 
-      var anotherParent = $('.square_container').filter(function(){return $(this).attr('id') == id})
+    var anotherParent = $('.square_container').filter(function(){return $(this).attr('id') == id});
 
-      _this.appendTo(anotherParent)   
+    _this.appendTo(anotherParent);
 
-      return
+    return
 
   }
 
+
+
+
+
+
   this.move = function(keyPressed) {
 
-    var current_x = this.x
-      var current_y = this.y
+    var current_x = this.x;
+      var current_y = this.y;
 
       if (keyPressed == 37) { // left
 
@@ -60,12 +65,23 @@ function Square() {
 
         parentsToLeft.each(function(){
 
-          parentsYCoordinates.push($(this).attr('id')[1])
+          parentsYCoordinates.push($(this).attr('id')[1]);
 
         })
 
-        this.y = Math.max.apply(Math,parentsYCoordinates) + 1
+        var maxLeftParentY = Math.max.apply(Math,parentsYCoordinates);
 
+          var obstacle = squares.filter(function(square){return square.x == current_x && square.y == maxLeftParentY})
+
+          if (this.checkValue(obstacle[0])) {
+
+            this.y = maxLeftParentY;
+
+          } else {
+
+            this.y = maxLeftParentY + 1;
+
+          }
       }
 
 
@@ -82,35 +98,45 @@ function Square() {
 
         })
 
-        this.y = Math.min.apply(Math,parentsYCoordinates) - 1
+        var maxRightParentY = Math.min.apply(Math,parentsYCoordinates)  
 
+          var obstacle = squares.filter(function(square){return square.x == current_x && square.y == maxRightParentY})
 
+          if (this.checkValue(obstacle[0])) {
+
+            this.y = maxRightParentY
+
+          } else {
+
+            this.y = maxRightParentY - 1
+          }
       }
 
     this.moveRender(current_x,current_y)
 
+      this.kill(obstacle[0]);
+
   }
 
-
   this.moveUpDown = function(move) { 
-    var old_x = this.x
-    var old_y = this.y
+    var old_x = this.x;
+    var old_y = this.y;
     var newX = (old_x + move);
-
-    var nextBlock =  $.grep(squares, function(e){ return e.y == old_y && e.x == newX; })
-    if (nextBlock) {
-       var block  =  nextBlock[0]
-    } else {
-        block = {}
-    }
+    console.log(this.x);
+      // find a cell thats in the way of  a move to later match the value
+      var nextBlock =  $.grep(squares, function(e){ return e.y == old_y && e.x == newX; })
+      if (nextBlock) {
+        var block  =  nextBlock[0];
+      } 
 
     // if the nth most cell is empty or has the same value as 'this' ->  move there 
-    if ($('#'+newX+""+old_y).is(':empty') ||  (checkValue(block) == true)){  
-      this.x = newX 
-        this.moveRender(old_x,old_y);
+    if ($('#'+newX+""+old_y).is(':empty') || (this.checkValue(block) == true) )  {
+      this.x = newX; 
+      this.moveRender(old_x,old_y);
+      if (block != this){this.kill(block);}
       return
     } else if (move == 0){   //if row doesn't need to move -get out! 
-      return
+      return;
     } else {
       // moving down by subtracking  
       if (move > 0 ){ 
@@ -122,6 +148,46 @@ function Square() {
       this.moveUpDown(nextMove);
     }
   }
+
+
+
+
+
+  this.checkValue = function(squareToCheckAgainst) {
+    if (squareToCheckAgainst){
+      if (squareToCheckAgainst.value == this.value) {
+        console.log(true);
+        return true;
+      } else {
+        console.log(false);
+        return false;
+      }
+    }
+  }
+
+  this.kill = function(squareToKill) {
+
+    if (squareToKill && this.checkValue(squareToKill)) {
+
+      var id = squareToKill.x+""+squareToKill.y
+        // Kill the square DOM on the game board
+        $('.square_container').filter(function(){return $(this).attr('id') == id}).children().eq(0).remove()   
+
+        squares.splice($.inArray(squareToKill,squares),1)
+
+        children.splice($.inArray(squareToKill,Array.prototype.concat.apply([],children)),1)
+
+        this.value *= 2
+        // change the class of this square to the current value
+        $('.square_container').filter(function(){return $(this).attr('id') == id}).children().removeClass("_"+(this.value/2).toString()).addClass("_"+(this.value).toString())  
+        // change the display value to the current value
+        $('.square_container').filter(function(){return $(this).attr('id') == id}).children().text(this.value) 
+
+    }
+
+  } 
+
+
 
 
 }
@@ -190,7 +256,9 @@ function massMove(event) {
       sq.moveUpDown(moves)
     });
   }
-
+  if (event.keyCode >= 37 && event.keyCode <= 40){ 
+    createSquare(1);
+  }
 }
 
 
@@ -198,20 +266,27 @@ function massMove(event) {
 
 
 
+function createSquare(num) {
+
+
+  for(var i = 1; i <= num; i++) {
+
+    square = new Square()
+      squares.push(square)
+      square.randLocation()
+      square.render()
+
+  }
+
+
+}
+
+
+
 $(function(){
 
-  $(document).on('keydown', massMove)
+  $(document).on('keydown', massMove);
+  //start the game with two squares
+  createSquare(2);
 
-  square = new Square()
-  squares.push(square)
-  square.randLocation()
-  square.render()
-
-  square2 = new Square()
-  squares.push(square2)
-  square2.randLocation()
-  square2.render()
-
-})
-
-
+});
