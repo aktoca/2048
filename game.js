@@ -39,14 +39,14 @@ function Square() {
     var newY = (old_y + move);
 
     // find the cell in the way of a move 
-    var nextBlock =  $.grep(squares, function(e){ return e.Y == newY && e.x == old_x; });
+    var nextBlock =  $.grep(squares, function(e){ return e.y == newY && e.x == old_x; });
     if (nextBlock) {var block  =  nextBlock[0]; } 
 
     // if the nth most cell is empty or has the same value as 'this' ->  move there 
     if ($('#'+old_x+""+newY).is(':empty') || (this.checkValue(block) == true) )  {
       this.y = newY; 
       this.moveRender(old_x,old_y);
-      if (block != this){this.kill(block);} // kill only when the block above is not self but has the same value
+      if (block != this){this.kill(block);  } // kill only when the block above is not self but has the same value
       return;
     } else if (move == 0){   //if row doesn't need to move -get out! 
       return;
@@ -184,12 +184,14 @@ function createSquare(num) {
       square.randLocation()
       square.render()
   }
+  
 }
 
 
 
 $(function(){
   $(document).on('keydown', massMove);
+$("#score").text(this.score);
   //start the game with two squares
   createSquare(2);
 });
