@@ -5,10 +5,17 @@ function Square() {
   this.id;
 
   this.randLocation = function() {
-    x = Math.ceil(Math.random()*4);
-    y = Math.ceil(Math.random()*4);
-    this.id = (x * 10 ) + y; 
-    //check to make sure not already taken
+    while(true){
+      var x = Math.ceil(Math.random()*4);
+      var y = Math.ceil(Math.random()*4);
+      this.id = (x * 10 ) + y; 
+      var id = "#" + this.id
+      //check to make sure not already taken
+      if($(id).children().length == 0 ){
+        break;
+      }
+
+    }
   }
 
   this.render = function(){
@@ -17,7 +24,6 @@ function Square() {
     $('.square_container').filter(function(){return $(this).attr('id') == id}).append(this.$me);
 
   }
-  console.log("Square");
 
   this.moveRender = function(currentSqrId){
     var moveToId = "#"+this.id;
@@ -29,28 +35,24 @@ function Square() {
     return;
   }
 
-  this.move = function(){
+  this.move = function(direction, limit){
     var old_id = this.id;
-
-    // to move left -10
-    while ( old_id >= 20  ){
-      var nextLine =  $.grep(squares, function(e){ return e.id == old_id -10; });
+    // to move left: direction = -10
+    // move up: diriction = +1
+    for (i =1; i <= limit;i++ ){
+      var nextLine =  $.grep(squares, function(e){ return e.id == old_id + direction; });
       var next = nextLine[0];
+      console.log('next sqr: '+nextLine);
       if (next){
         console.log('check value and if eql move& kill');
       } else {
         console.log(this.id);
-        if (this.id != 10){
-          this.id = old_id - 10;
-          console.log(this);
-          this.moveRender(old_id);
-        }
+        this.id = old_id + direction;
+        console.log(this);
+        this.moveRender(old_id);
       }
-      old_id = old_id - 10;
+      old_id = old_id + direction;
     }
-
-
-
   }
 
 }
@@ -58,16 +60,22 @@ function Square() {
 function massMove(event){
   console.log("Move");
   if (event.keyCode == 37){
+    console.log("left");
     for (var i=2;i <=4; i++){
       line = $.grep(squares, function(e){ return Math.floor(e.id / 10) == i; });
       $(line).each(function(w, square_container){ 
-        this.move();
+        this.move(-10, i-1);
       });
-      console.log('next col');
     }
-    console.log("left");
   } else if (event.keyCode == 38){
     console.log("up");
+    for (var i=3; i>=1; i--){
+      line = $.grep(squares, function(e){ return Math.floor(e.id % 10) == i; });
+      console.log(line);
+      $(line).each(function(w, square_container){ 
+        this.move(1, 4-i );
+      });
+    }
   } else if (event.keyCode == 39){
     console.log("right");
   } else if (event.keyCode == 40){
@@ -94,5 +102,5 @@ function createSquare(num) {
 $(function(){
   $(document).on('keydown', massMove);
   //start the game with two squares
-  createSquare(2);
+  createSquare(4);
 });
