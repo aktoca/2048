@@ -78,7 +78,6 @@ function Square() {
   this.isSecond = function(nextSqr){
     if($("#"+nextSqr.id).children().length >= 2){
       return false;
-
     } else {
       return true;
     }
@@ -97,7 +96,6 @@ function Square() {
       $(id).children().removeClass("_"+(this.value/2).toString()).addClass("_"+(this.value).toString());  
       // change the display value to the current value
       $(id).children().text(this.value);
-
     }
   }  
 }
@@ -110,15 +108,10 @@ function massMove(event){
       line = $.grep(squares, function(e){ return Math.floor(e.id / 10) == i; });
       $(line).each(function(w, square_container){ 
         this.move(-10, i-1);
-        alert(i);
       });
       // Kill the square DOM on the game board
-      for (x in squares){ 
-        while ($("#"+squares[x].id).children().length > 1){
-          $("#"+squares[x].id).children().eq(0).remove();
-          console.log('remove from DOM');
-        }
-      }  
+      killAllButOne();
+        
     }
   } else if (event.keyCode == 38){
     console.log("up");
@@ -127,22 +120,48 @@ function massMove(event){
       $(line).each(function(w, square_container){ 
         this.move(1, 4-i );
       });
+    }
       // Kill the square DOM
+      killAllButOne();
+      
+    
+  } else if (event.keyCode == 39){
+    console.log("right");
+    for (var i=3;i >=1; i--){
+      line = $.grep(squares, function(e){ return Math.floor(e.id / 10) == i; });
+      console.log(line);
+      $(line).each(function(w, square_container){ 
+        this.move(10, 4-i);
+      });
+    }
+      // Kill the square DOM on the game board
+      killAllButOne();
+        
+    
+  } else if (event.keyCode == 40){
+    console.log("down");
+    for (var i=2; i<=4; i++){
+      line = $.grep(squares, function(e){ return Math.floor(e.id % 10) == i; });
+      $(line).each(function(w, square_container){ 
+        this.move(-1, i-1 );
+      });
+    }
+      // Kill the square DOM
+      killAllButOne();
+  }
+
+  if (event.keyCode >= 37 && event.keyCode <= 40){ 
+    createSquare(1);
+  }
+}
+
+function killAllButOne(){
       for (x in squares){ 
         while ($("#"+squares[x].id).children().length > 1){
           $("#"+squares[x].id).children().eq(0).remove();
-          console.log('remove from DOM');
         }
       }
-    }
-  } else if (event.keyCode == 39){
-    console.log("right");
-  } else if (event.keyCode == 40){
-    console.log("down");
-  }
-
 }
-
 
 function createSquare(num) {
   for(var i = 1; i <= num; i++) {
