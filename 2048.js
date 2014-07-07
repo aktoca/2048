@@ -33,32 +33,23 @@ function Square() {
 
   this.move = function(direction, limit){
     var old_id = this.id;
-    // to move left: direction = -10
-    // move up: diriction = +1
     for (i =1; i <= limit;i++ ){
       var nextLine =  $.grep(squares, function(e){ return e.id == old_id + direction; });
       var next = nextLine[0];
       console.log('next sqr: '+nextLine);
       if (next){
         //Check value of next square and if == to this, kill
-        console.log('check value and if eql move& kill');
         if (this.checkValue(next) && this.isSecond(next)){
           this.id = old_id + direction;
           this.moveRender(old_id);
           this.merge(next);
           return;
         }else{
-          console.log(this.id);
           return;
-
-
-          console.log('no match,dont move. try next square');
         }
       } else {
         //if next sqr is empty move there
-        console.log(this.id);
         this.id = old_id + direction;
-        console.log(this);
         this.moveRender(old_id);
       }
       old_id = old_id + direction;
@@ -91,7 +82,6 @@ function Square() {
       squares.splice($.inArray(squareToKill,squares),1);
 
       this.value *= 2;
-
       // change the class of this square to the current value
       $(id).children().removeClass("_"+(this.value/2).toString()).addClass("_"+(this.value).toString());  
       // change the display value to the current value
@@ -111,7 +101,6 @@ function massMove(event){
       });
       // Kill the square DOM on the game board
       killAllButOne();
-        
     }
   } else if (event.keyCode == 38){
     console.log("up");
@@ -121,23 +110,19 @@ function massMove(event){
         this.move(1, 4-i );
       });
     }
-      // Kill the square DOM
-      killAllButOne();
-      
-    
+    // Kill the square DOM
+    killAllButOne();
+
   } else if (event.keyCode == 39){
     console.log("right");
     for (var i=3;i >=1; i--){
       line = $.grep(squares, function(e){ return Math.floor(e.id / 10) == i; });
-      console.log(line);
       $(line).each(function(w, square_container){ 
         this.move(10, 4-i);
       });
     }
-      // Kill the square DOM on the game board
-      killAllButOne();
-        
-    
+    // Kill the square DOM on the game board
+    killAllButOne();
   } else if (event.keyCode == 40){
     console.log("down");
     for (var i=2; i<=4; i++){
@@ -146,8 +131,8 @@ function massMove(event){
         this.move(-1, i-1 );
       });
     }
-      // Kill the square DOM
-      killAllButOne();
+    // Kill the square DOM
+    killAllButOne();
   }
 
   if (event.keyCode >= 37 && event.keyCode <= 40){ 
@@ -156,11 +141,11 @@ function massMove(event){
 }
 
 function killAllButOne(){
-      for (x in squares){ 
-        while ($("#"+squares[x].id).children().length > 1){
-          $("#"+squares[x].id).children().eq(0).remove();
-        }
-      }
+  for (x in squares){ 
+    while ($("#"+squares[x].id).children().length > 1){
+      $("#"+squares[x].id).children().eq(0).remove();
+    }
+  }
 }
 
 function createSquare(num) {
@@ -177,5 +162,5 @@ function createSquare(num) {
 $(function(){
   $(document).on('keydown', massMove);
   //start the game with two squares
-  createSquare(4);
+  createSquare(2);
 });
