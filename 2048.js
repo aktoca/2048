@@ -49,6 +49,7 @@ function Square() {
           return;
         }else{
           console.log(this.id);
+          return;
 
 
           console.log('no match,dont move. try next square');
@@ -74,7 +75,7 @@ function Square() {
     }
   }
 
-  this.isSecond(nextSqr){
+  this.isSecond = function(nextSqr){
     if($("#"+nextSqr.id).children().length >= 2){
       return false;
 
