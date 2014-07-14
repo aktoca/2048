@@ -1,102 +1,124 @@
 <html>
-<head>
+  <head>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="2048.js"></script>
     <title>
-
+      2 then 4 then 8
     </title>
     <style type="text/css">
-        .game_board {
-            height: 32rem;
-            width: 32rem;
-            left: 20rem;
-            top: 5rem;
-            position: absolute;
-            border: 1px solid black;
+      .center{
+      position: relative;	
+      width: 40%;	
+      height: 35rem;	
+      margin: 20px auto;	
+      }
 
-        }
+      .game_board {
+      height: 515px;
+      width: 515px;
+      left:0; 
+      top: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      border: 1px solid black;
+      }
 
-        .square_container {
-            
-            position: relative;
-            float:left;
-            height: 7rem;
-            width: 7rem;
-            margin: 0.42rem;
-            border: 1px solid red;
-        }
-
-
-        .cell_content {
-            position: absolute;
-            background-color: red;
-            height: 100%;
-            width: 100%;
-        }
-
-        ._2 {
-            background-color: rgb(200,200,255);
-        }
-
-        ._4 {
-            background-color: rgb(150,150,245);
-        }
-
-        ._8 {
-            background-color: rgb(100,100,235);
-        }
-        ._16{
-            background-color: rgb(50,50,200);
-        }
-        ._32{
-            background-color: rgb(25,25,150);
-        }
-        ._64{
-            background-color: rgb(0,0,100);
-        }
-        ._128{
-            background-color: rgb(50,50,50);
-        }
-        ._256{
-            background-color: rgb(50,55,70);
-        }
-        ._512{
-            background-color: rgb(50,60,90);
-        }
-        ._1024{
-            background-color: rgb(50,75,110);
-        }
-        ._2048{
-            background-color: rgb(150,80,130);
-        }
+      h1 {
+      text-align: center;
+      }
 
 
+      .square_container {
+      position: relative;
+      float:left;
+      height: 7rem;
+      width: 7rem;
+      margin: 0.42rem;
+      border: 1px solid grey;
+      }
 
 
+      .cell_content {
+      position: absolute;
+      background-color: red;
+      height: 100%;
+      width: 100%;
+      }
+
+      ._2 {
+      background-color: rgb(200,200,255);
+      }
+
+      ._4 {
+      background-color: rgb(150,150,255);
+      }
+
+      ._8 {
+      background-color: rgb(100,100,255);
+      }
+
+      ._16 {
+      background-color: rgb(50,50,255);
+      }
+
+      ._32 {
+      background-color: rgb(150,150,200);
+      }
+
+      ._64 {
+      background-color: rgb(150,100,200);
+      }
+
+      ._128 {
+      background-color: rgb(150,50,200);
+      }
+      ._256 {
+      background-color: rgb(155,0,205);
+      }
+
+      ._512 {
+      background-color: rgb(10,10,25);
+      }
+
+      ._1024 {
+      background-color: rgb(10,10,25);
+      }
+
+      ._2408 {
+      background-color: rgb(10,10,25);
+      }
+
+      ._4816 {
+      background-color: rgb(1,1,55);
+      }
 
     </style>
+  </head>
+</style>
 </head>
 <body>
-  <h2>2 then 4 then 8</h2>
-    <p>Current score: <span id="score"></span></p>
+  <h1>2 then 4 then 8</h1>
+  <p>Current score: <span id="score"></span></p>
+  <div class="center">
     <div class="game_board">
-        <div class = "square_container" id=11></div>
-        <div class = "square_container" id=12></div>
-        <div class = "square_container" id=13></div>
-        <div class = "square_container" id=14></div>
-        <div class = "square_container" id=21></div>
-        <div class = "square_container" id=22></div>
-        <div class = "square_container" id=23></div>
-        <div class = "square_container" id=24></div>
-        <div class = "square_container" id=31></div>
-        <div class = "square_container" id=32></div>
-        <div class = "square_container" id=33></div>
-        <div class = "square_container" id=34></div>
-        <div class = "square_container" id=41></div>
-        <div class = "square_container" id=42></div>
-        <div class = "square_container" id=43></div>
-        <div class = "square_container" id=44></div>
+      <div class = "square_container" id=14></div>
+      <div class = "square_container" id=24></div>
+      <div class = "square_container" id=34></div>
+      <div class = "square_container" id=44></div>
+      <div class = "square_container" id=13></div>
+      <div class = "square_container" id=23></div>
+      <div class = "square_container" id=33></div>
+      <div class = "square_container" id=43></div>
+      <div class = "square_container" id=12></div>
+      <div class = "square_container" id=22></div>
+      <div class = "square_container" id=32></div>
+      <div class = "square_container" id=42></div>
+      <div class = "square_container" id=11></div>
+      <div class = "square_container" id=21></div>
+      <div class = "square_container" id=31></div>
+      <div class = "square_container" id=41></div>
     </div>
-
+  </div>
 </body>
-</html>
+  </html>
