@@ -7,7 +7,6 @@
     </title>
     <style type="text/css">
         .game_board {
-
             height: 32rem;
             width: 32rem;
             left: 20rem;
@@ -36,20 +35,39 @@
         }
 
         ._2 {
-
             background-color: rgb(200,200,255);
-
         }
 
         ._4 {
-
-            background-color: rgb(150,150,255);
+            background-color: rgb(150,150,245);
         }
 
         ._8 {
-
-            background-color: rgb(100,100,255);
-
+            background-color: rgb(100,100,235);
+        }
+        ._16{
+            background-color: rgb(50,50,200);
+        }
+        ._32{
+            background-color: rgb(25,25,150);
+        }
+        ._64{
+            background-color: rgb(0,0,100);
+        }
+        ._128{
+            background-color: rgb(50,50,50);
+        }
+        ._256{
+            background-color: rgb(50,55,70);
+        }
+        ._512{
+            background-color: rgb(50,60,90);
+        }
+        ._1024{
+            background-color: rgb(50,75,110);
+        }
+        ._2048{
+            background-color: rgb(150,80,130);
         }
 
 
@@ -59,7 +77,8 @@
     </style>
 </head>
 <body>
-
+  <h2>2 then 4 then 8</h2>
+    <p>Current score: <span id="score"></span></p>
     <div class="game_board">
         <div class = "square_container" id=11></div>
         <div class = "square_container" id=12></div>
